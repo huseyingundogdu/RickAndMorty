@@ -1,0 +1,44 @@
+RickAndMortyApp/
+├── Models/
+│   ├── Character.swift
+│   ├── Episode.swift
+│   ├── Location.swift
+│   └── ApiResponse.swift
+├── Services/
+│   ├── Api/
+│   │   └── RickAndMortyApiService.swift
+│   └── Repository/
+│       └── RickAndMortyRepository.swift
+├── ViewModels/
+│   ├── Characters/
+│   │   ├── CharacterListViewModel.swift
+│   │   └── CharacterDetailViewModel.swift
+│   ├── Episodes/
+│   │   ├── EpisodeListViewModel.swift
+│   │   └── EpisodeDetailViewModel.swift
+│   └── Locations/
+│       ├── LocationListViewModel.swift
+│       └── LocationDetailViewModel.swift
+├── Views/
+│   ├── Characters/
+│   │   ├── CharacterListView.swift
+│   │   ├── CharacterDetailView.swift
+│   │   └── CharacterRowView.swift
+│   ├── Episodes/
+│   │   ├── EpisodeListView.swift
+│   │   ├── EpisodeDetailView.swift
+│   │   └── EpisodeRowView.swift
+│   ├── Locations/
+│   │   ├── LocationListView.swift
+│   │   ├── LocationDetailView.swift
+│   │   └── LocationRowView.swift
+│   └── Shared/
+│       ├── ErrorView.swift
+│       ├── LoadingView.swift
+│       └── EmptyStateView.swift
+├── Utilities/
+│   ├── NetworkManager.swift
+│   ├── Constants.swift
+│   └── Resource.swift
+└── RickAndMortyApp.swift
+

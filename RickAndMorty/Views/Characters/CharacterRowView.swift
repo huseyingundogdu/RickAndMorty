@@ -8,11 +8,40 @@
 import SwiftUI
 
 struct CharacterRowView: View {
+    
+    var character: Character
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            AsyncImage(url: URL(string: character.image)) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } placeholder: {
+                ProgressView()
+            }
+            .frame(width: 150, height: 150)
+            
+            
+            VStack(alignment: .leading) {
+                Text(character.name)
+                    .font(.title2)
+                    .bold()
+                Text(character.status)
+                HStack {
+                    Text(character.species)
+                    Text(character.gender)
+                }
+            }
+            .frame(maxHeight: .infinity, alignment: .center)
+            
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.thickMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
-#Preview {
-    CharacterRowView()
-}
+//#Preview {
+//    CharacterRowView()
+//}
