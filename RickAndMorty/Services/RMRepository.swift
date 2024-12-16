@@ -15,10 +15,27 @@ class RMRepository {
         self.apiService = apiService
     }
     
+    // MARK: - Character
     // Fetch paginated characters
-    func getCharacters(page: Int) async throws -> ApiResponse<Character> {
-        return try await apiService.fetchCharacters(page: page)
+    func getCharacters(page: Int, name: String?, status: String?, species: String?, gender: String?) async throws -> ApiResponse<Character> {
+        return try await apiService.fetchCharacters(page: page, name: name, status: status, species: species, gender: gender)
     }
     
-    // Fetch single character
+    // Fetch character details by ID
+    func getCharacterDetail(by id: Int) async throws -> Character {
+        return try await apiService.fetchCharacterDetail(by: id)
+    }
+    
+    
+    
+    // MARK: - Episode
+    // Fetch paginated episodes
+    func getEpisodes(page: Int) async throws -> ApiResponse<Episode> {
+        return try await apiService.fetchEpisodes(page: page)
+    }
+    
+    // Fetch episode details by ID
+    func getEpisodeDetail(by id: Int) async throws -> Episode {
+        return try await apiService.fetchEpisodeDetail(by: id)
+    }
 }

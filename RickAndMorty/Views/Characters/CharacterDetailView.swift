@@ -42,7 +42,8 @@ struct CharacterDetailView: View {
                         .resizable()
                         .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 12))
-                    
+                        .shadow(color: shadowColor(for: character.status), radius: 10)
+                        
                 } placeholder: {
                     ProgressView()
                 }
@@ -79,11 +80,26 @@ struct CharacterDetailView: View {
                 }
                 
             }
+            .padding()
         }
         .navigationTitle(character.name)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal)
+//        .padding(.horizontal)
         .scrollIndicators(.hidden)
+    }
+    
+    // Shadow Color Decider
+    private func shadowColor(for status: String) -> Color {
+        switch status.lowercased() {
+        case "alive":
+            return .green
+        case "dead":
+            return .red
+        case "unknown":
+            return .gray
+        default:
+            return .clear
+        }
     }
 }
 

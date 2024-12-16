@@ -20,22 +20,31 @@ class RMApiService {
     
     // MARK: - Character
     // Fetch paginated characters
-    func fetchCharacters(page: Int) async throws -> ApiResponse<Character> {
-        let url = "\(baseURL)/character?page=\(page)"
+    func fetchCharacters(page: Int, name: String?, status: String?, species: String?, gender: String?) async throws -> ApiResponse<Character> {
+        let url = "\(baseURL)/character/?page=\(page)&name=\(name ?? "")&status=\(status ?? "")&species=\(species ?? "")&gender=\(gender ?? "")"
         return try await performRequest(url: url)
     }
     
     // Fetch details of a spesific character by ID
-    func fetchCharacterDetail(by id: String) async throws -> Character {
+    func fetchCharacterDetail(by id: Int) async throws -> Character {
         let url = "\(baseURL)/character/\(id)"
         return try await performRequest(url: url)
     }
+
+    
     
     // MARK: - Episode
     func fetchEpisodes(page: Int) async throws -> ApiResponse<Episode> {
-        let url = ""
+        let url = "\(baseURL)/episode"
         return try await performRequest(url: url)
     }
+    
+    func fetchEpisodeDetail(by id: Int) async throws -> Episode {
+        let url = "\(baseURL)/episode/\(id)"
+        return try await performRequest(url: url)
+    }
+    
+    
     
     
     // MARK: - Helper Method

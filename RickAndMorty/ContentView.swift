@@ -9,16 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ScrollView {
+            ZStack {
+                Image("rm")
+                    .resizable()
+                    .scaledToFit()
+                    .opacity(0.8)
+                
+                Text("Rick and Morty API")
+                    .font(.title)
+                    .bold()
+                    .shadow(radius: 10)
+            }
+            Spacer()
         }
-        .padding()
+        .navigationTitle("Rick and Morty API")
+        .navigationBarTitleDisplayMode(.inline)
+        .ignoresSafeArea()
     }
 }
 
 #Preview {
-    ContentView()
+    NavigationStack {
+        ContentView()
+    }
 }
