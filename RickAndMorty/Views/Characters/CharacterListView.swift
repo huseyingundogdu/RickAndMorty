@@ -13,28 +13,32 @@ struct CharacterListView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                VStack(alignment: .leading) {
-                    Text("RM Universe")
-                        .font(.system(size: 40))
-                        .bold()
-                    Text("Characters")
-                        .font(.title)
-                }
+//                VStack(alignment: .leading) {
+//                    Text("RM Universe")
+//                        .font(.system(size: 40))
+//                        .bold()
+//                    Text("Characters")
+//                        .font(.title)
+//                }
                 
                 
                 ScrollView {
                     ForEach(vm.characters, id: \.id) { character in
-                        CharacterRowView(character: character)
+                        NavigationLink(destination: CharacterDetailView(character: character)) {
+                            CharacterRowView(character: character)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 .scrollIndicators(.hidden)
             }
-            .padding()
+            .padding(.horizontal)
             .onAppear {
                 Task {
                     await vm.fetchCharacters(page: 1)
                 }
             }
+            .navigationTitle("Characters")
         }
     }
 }

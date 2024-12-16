@@ -27,10 +27,27 @@ struct CharacterRowView: View {
                 Text(character.name)
                     .font(.title2)
                     .bold()
-                Text(character.status)
+                
+                HStack {
+                    Text(character.status)
+                        .bold()
+                    if character.status == "Alive" {
+                        Image(systemName: "circle.fill")
+                            .foregroundStyle(.green)
+                    } else if character.status == "Dead" {
+                        Image(systemName: "circle.fill")
+                            .foregroundStyle(.red)
+                    } else {
+                        Image(systemName: "circle.fill")
+                            .foregroundStyle(.gray)
+                    }
+                }
+                
                 HStack {
                     Text(character.species)
                     Text(character.gender)
+                        .foregroundStyle(.secondary)
+                        .italic()
                 }
             }
             .frame(maxHeight: .infinity, alignment: .center)
