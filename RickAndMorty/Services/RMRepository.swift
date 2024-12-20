@@ -26,6 +26,10 @@ class RMRepository {
         return try await apiService.fetchCharacterDetail(by: id)
     }
     
+    // MARK: - Location
+    func getLocations(page: Int, name: String?, type: String?, dimension: String?) async throws -> ApiResponse<Location> {
+        return try await apiService.fetchLocation(page: page, name: name, type: type, dimension: dimension)
+    }
     
     
     // MARK: - Episode

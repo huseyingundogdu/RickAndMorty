@@ -28,6 +28,9 @@ class CharacterListViewModel: ObservableObject {
     //@Published var filters: [String] 
     
     func fetchCharacters(page: Int) async {
+        if page == 1 {
+            self.characters = []
+        }
         do {
             let response = try await repository.getCharacters(page: page, name: searchText, status: selectedStatus.rawValue, species: selectedSpecies.rawValue, gender: selectedGender.rawValue)
             characters.append(contentsOf: response.results)

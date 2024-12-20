@@ -29,7 +29,7 @@ struct CharacterListView: View {
                         Button {
                             Task {
                                 vm.characters = []
-                                vm.page = 1
+        
                                 
                                 await vm.fetchCharacters(page: 1)
                             }
@@ -85,8 +85,10 @@ struct CharacterListView: View {
             .scrollIndicators(.hidden)
             .padding(.horizontal)
             .onAppear {
-                Task {
-                    await vm.fetchCharacters(page: vm.page)
+                if vm.characters.isEmpty {
+                    Task {
+                        await vm.fetchCharacters(page: vm.page)
+                    }
                 }
             }
             .sheet(isPresented: $isShowingFilterView) {

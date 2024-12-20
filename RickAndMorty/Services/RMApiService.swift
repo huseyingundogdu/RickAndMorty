@@ -30,7 +30,12 @@ class RMApiService {
         let url = "\(baseURL)/character/\(id)"
         return try await performRequest(url: url)
     }
-
+    
+    // MARK: Location
+    func fetchLocation(page: Int, name: String?, type: String?, dimension: String?) async throws -> ApiResponse<Location> {
+        let url = "\(baseURL)/location/?page=\(page)&name=\(name ?? "")&type=\(type ?? "")&dimension=\(dimension ?? "")"
+        return try await performRequest(url: url)
+    }
     
     
     // MARK: - Episode
