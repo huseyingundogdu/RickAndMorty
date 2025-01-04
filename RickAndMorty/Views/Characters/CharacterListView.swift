@@ -15,75 +15,76 @@ struct CharacterListView: View {
         
         NavigationStack {
             ScrollView {
-                VStack {
-                    HStack {
-                        TextField("Search", text: $vm.searchText)
-                            .autocorrectionDisabled()
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .padding(12)
-                            .background(Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .shadow(color: .white, radius: 2)
-                            .padding(.horizontal, 2)
-                        
-                        Button {
-                            Task {
-                                vm.characters = []
-        
+                VStack(spacing: 20) {
+                        HStack {
+                            TextField("Search", text: $vm.searchText)
+                                .autocorrectionDisabled()
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .padding(12)
+                                .background(Color(.systemGray6))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .shadow(color: .white, radius: 2)
                                 
-                                await vm.fetchCharacters(page: 1)
-                            }
-                        } label: {
-                            Image(systemName: "magnifyingglass.circle")
-                                .font(.title)
-                                .foregroundStyle(.green)
-                        }
-                        
-                        Button {
-                            isShowingFilterView.toggle()
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .font(.title)
-                                .foregroundStyle(.green)
-                        }
-                    }
-                    Divider()
-                    FilterView(filters: [
-                        vm.searchText,
-                        vm.selectedGender.rawValue,
-                        vm.selectedStatus.rawValue,
-                        vm.selectedSpecies.rawValue])
-                    
-                }
-                
-                Divider()
-                
-                LazyVStack {
-                    ForEach(vm.characters, id: \.id) { character in
-                        NavigationLink(destination: CharacterDetailView(character: character)) {
-                            HStack {
-                                CharacterRowView(character: character)
-                                    .padding(.horizontal, 2)
-                                    .shadow(color: .white, radius: 2)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    if vm.isMoreDataAvailable && !vm.characters.isEmpty {
-                        ProgressView()
-                            .onAppear {
+                            
+                            Button {
                                 Task {
-                                    print("get more data")
-                                    vm.page += 1
-                                    print("vm.page: \(vm.page)")
-                                    await vm.fetchCharacters(page: vm.page)
+                                    vm.characters = []
+                                    
+                                    
+                                    await vm.fetchCharacters(page: 1)
+                                }
+                            } label: {
+                                Image(systemName: "magnifyingglass.circle")
+                                    .font(.title)
+                                    .foregroundStyle(.green)
+                            }
+                            
+                            Button {
+                                isShowingFilterView.toggle()
+                            } label: {
+                                Image(systemName: "ellipsis")
+                                    .font(.title)
+                                    .foregroundStyle(.green)
+                            }
+                            
+                        }
+                    
+                    
+                    HStack {
+                        Text("Filters:")
+                            .fontWeight(.light)
+                            .foregroundStyle(.secondary)
+                            .italic()
+                        FilterView(filters: [
+                            vm.searchText,
+                            vm.selectedGender.rawValue,
+                            vm.selectedStatus.rawValue,
+                            vm.selectedSpecies.rawValue])
+                    }
+                    
+                    LazyVStack(spacing: 10) {
+                        ForEach(vm.characters, id: \.id) { character in
+                            NavigationLink(destination: CharacterDetailView(character: character)) {
+                                HStack {
+                                    CharacterRowView(character: character)
                                 }
                             }
+                            .buttonStyle(.plain)
+                        }
+                        if vm.isMoreDataAvailable && !vm.characters.isEmpty {
+                            ProgressView()
+                                .onAppear {
+                                    Task {
+                                        vm.page += 1
+                                        await vm.fetchCharacters(page: vm.page)
+                                    }
+                                }
+                        }
                     }
                 }
+                .padding()
             }
             .scrollIndicators(.hidden)
-            .padding(.horizontal)
             .onAppear {
                 if vm.characters.isEmpty {
                     Task {
@@ -107,7 +108,7 @@ struct CharacterListView: View {
 }
 
 #Preview {
-    NavigationStack {
+//    NavigationStack {
         CharacterListView()
-    }
+//    }
 }

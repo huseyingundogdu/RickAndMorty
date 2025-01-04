@@ -21,7 +21,6 @@ struct CharacterRowView: View {
                 ProgressView()
             }
             .frame(width: 150, height: 150)
-            .shadow(color: .gray, radius: 10, x: 2)
             
             
             VStack(alignment: .leading) {
@@ -51,12 +50,12 @@ struct CharacterRowView: View {
                         .italic()
                 }
             }
-            .frame(maxHeight: .infinity, alignment: .center)
             
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.thickMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .background(RoundedRectangle(cornerRadius: 12).fill(.thickMaterial).shadow(color: .white, radius: 1))
+        
     }
 }
 
@@ -81,5 +80,5 @@ struct CharacterRowView: View {
         created: "2017-11-04T18:48:46.250Z"
     )
     
-    return CharacterRowView(character: previewCharacter)
+    return CharacterRowView(character: previewCharacter).padding()
 }

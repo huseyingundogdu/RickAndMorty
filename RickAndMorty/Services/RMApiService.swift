@@ -40,7 +40,7 @@ class RMApiService {
     
     // MARK: - Episode
     func fetchEpisodes(page: Int) async throws -> ApiResponse<Episode> {
-        let url = "\(baseURL)/episode"
+        let url = "\(baseURL)/episode/?page=\(page)"
         return try await performRequest(url: url)
     }
     

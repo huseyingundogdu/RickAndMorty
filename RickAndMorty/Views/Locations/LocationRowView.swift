@@ -21,12 +21,13 @@ struct LocationRowView: View {
                 .foregroundStyle(.secondary)
                 .italic()
         }
-        .frame(height: 100)
+        .frame(height: 140)
         .frame(maxWidth: 350)
-        .padding()
+        .padding(10)
         .background {
             RoundedRectangle(cornerRadius: 12)
                 .fill(.thinMaterial)
+                .shadow(color: .white, radius: 1)
         }
     }
 }

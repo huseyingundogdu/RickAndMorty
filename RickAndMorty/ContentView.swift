@@ -9,28 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ScrollView {
-            ZStack {
-                Image("rm")
-                    .resizable()
-                    .scaledToFit()
-                    .opacity(0.8)
-                
-                Text("Rick and Morty API")
-                    .font(.title)
-                    .bold()
-                    .shadow(radius: 10)
-            }
-            Spacer()
+        TabView {
+            CharacterListView()
+                .tabItem { Label("Characters", systemImage: "person") }
+                            
+            LocationListView()
+                .tabItem { Label("Locations", systemImage: "globe") }
+            
+            EpisodeListView()
+                .tabItem { Label("Episodes", systemImage: "play") }
         }
-        .navigationTitle("Rick and Morty API")
-        .navigationBarTitleDisplayMode(.inline)
-        .ignoresSafeArea()
+        .tint(.green)
     }
 }
 
 #Preview {
-    NavigationStack {
-        ContentView()
-    }
+    ContentView()
 }

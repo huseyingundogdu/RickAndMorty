@@ -32,7 +32,6 @@ class LocationListViewModel: ObservableObject {
         do {
             let response = try await repository.getLocations(page: page, name: searchText, type: type, dimension: dimension)
             locations.append(contentsOf: response.results)
-            //print(locations)
             isMoreDataAvailable = response.info.next != nil
         } catch {
             print("error: \(error.localizedDescription)")

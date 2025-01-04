@@ -12,66 +12,61 @@ struct LocationListView: View {
     @StateObject private var vm = LocationListViewModel()
     
     private let adaptiveColumn = [
-        GridItem(.adaptive(minimum: 150))
+        GridItem(.adaptive(minimum: 130))
     ]
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                
-                HStack {
-                    TextField("Search", text: $vm.searchText)
-                        .autocorrectionDisabled()
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(12)
-                        .background(Color(.systemGray6))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .shadow(color: .white, radius: 2)
-                        .padding(.horizontal, 2)
-                    
-                    Button {
-                        Task {
-                            vm.locations = []
-                            await vm.fetchLocations(page: 1)
-                        }
-                    } label: {
-                        Image(systemName: "magnifyingglass.circle")
-                            .font(.title)
-                            .foregroundStyle(.green)
-                    }
-                }
-                .padding(.horizontal)
-                
-                Divider()
-                HStack {
-                    Text("Filters:")
-                        .fontWeight(.light)
-                        .foregroundStyle(.secondary)
-                        .italic()
-                    FilterView(filters: [vm.searchText])
-                }
-                .padding(.horizontal)
-                
-                LazyVGrid(columns: adaptiveColumn, spacing: 10) {
-                    ForEach(vm.locations, id: \.id) { location in
-                        NavigationLink(destination: LocationDetailView(location: location)) {
-                            HStack {
-                                LocationRowView(location: location)
-                                    .shadow(color: .white, radius: 1)
+                VStack(spacing: 20) {
+                    HStack {
+                        TextField("Search", text: $vm.searchText)
+                            .autocorrectionDisabled()
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .padding(12)
+                            .background(Color(.systemGray6))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .shadow(color: .white, radius: 2)
+                        
+                        Button {
+                            Task {
+                                vm.locations = []
+                                await vm.fetchLocations(page: 1)
                             }
+                        } label: {
+                            Image(systemName: "magnifyingglass.circle")
+                                .font(.title)
+                                .foregroundStyle(.green)
                         }
-                        .buttonStyle(.plain)
                     }
-                    if vm.isMoreDataAvailable && !vm.locations.isEmpty {
-                        ProgressView()
-                            .onAppear {
-                                Task {
-                                    print("get more data")
-                                    vm.page += 1
-                                    print("vm.page: \(vm.page)")
-                                    await vm.fetchLocations(page: vm.page)
+                    
+                    
+                    HStack {
+                        Text("Filters:")
+                            .fontWeight(.light)
+                            .foregroundStyle(.secondary)
+                            .italic()
+                        FilterView(filters: [vm.searchText])
+                    }
+                    
+                    LazyVGrid(columns: adaptiveColumn, spacing: 10) {
+                        ForEach(vm.locations, id: \.id) { location in
+                            NavigationLink(destination: LocationDetailView(location: location)) {
+                                HStack {
+                                    LocationRowView(location: location)
                                 }
                             }
+                            .buttonStyle(.plain)
+                        }
+                        if vm.isMoreDataAvailable && !vm.locations.isEmpty {
+                            ProgressView()
+                                .onAppear {
+                                    Task {
+                                        vm.page += 1
+                                        await vm.fetchLocations(page: vm.page)
+                                    }
+                                }
+                        }
                     }
                 }
                 .padding()

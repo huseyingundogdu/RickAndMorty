@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CharacterDetailView: View {
     
+    @StateObject private var vm = CharacterListViewModel()
+    
     let character: Character
     
     var body: some View {
@@ -16,9 +18,6 @@ struct CharacterDetailView: View {
             VStack(alignment: .leading, spacing: 15) {
                 
                 VStack(alignment: .leading) {
-//                    Text(character.name)
-//                        .font(.title)
-//                        .bold()
                     
                     HStack {
                         Text(character.status)
@@ -47,7 +46,6 @@ struct CharacterDetailView: View {
                 } placeholder: {
                     ProgressView()
                 }
-                //.frame(width: 250, height: 250)
                 
                 VStack(alignment: .leading, spacing: 5) {
                     HStack {
@@ -75,17 +73,31 @@ struct CharacterDetailView: View {
                     .bold()
                     .italic()
                 
-                ForEach(character.episode, id: \.self) { ep in
-                    Text(ep)
+                ForEach(vm.episodes, id: \.id) { episode in
+                    NavigationLink(destination: EpisodeDetailView(episode: episode)) {
+                        HStack {
+                            Text(episode.name)
+                                .font(.headline)
+                            Spacer()
+                            Text(episode.episode)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(RoundedRectangle(cornerRadius: 12).fill(.thinMaterial))
+                    }
+                    .buttonStyle(.plain)
                 }
                 
             }
             .padding()
         }
         .navigationTitle(character.name)
-        .frame(maxWidth: .infinity, alignment: .leading)
-//        .padding(.horizontal)
         .scrollIndicators(.hidden)
+        .onAppear {
+            Task {
+                await vm.fetchEpisodes(by: character.episode)
+            }
+        }
     }
     
     // Shadow Color Decider
@@ -127,4 +139,5 @@ struct CharacterDetailView: View {
     return NavigationStack {
         CharacterDetailView(character: previewCharacter)
     }
+    
 }
